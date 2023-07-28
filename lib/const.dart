@@ -6,5 +6,6 @@ var backgroundColor = Colors.grey[300];
 
 var kPrimaryColor = Colors.brown[300];
 var textColor = Colors.brown[600];
+var snackbarColor = Colors.brown[200];
 
 const double defaultPadding = 16.0;

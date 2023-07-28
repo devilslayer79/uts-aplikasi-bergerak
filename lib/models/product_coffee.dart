@@ -1,5 +1,6 @@
+import 'package:flutter/material.dart';
 
-class ProductsCoffee {
+class ProductsCoffee extends ChangeNotifier {
   final String id;
   final double price;
   final String product;

@@ -1,7 +1,7 @@
 import 'package:coffe_shop/components/coffee_tile.dart';
 import 'package:coffe_shop/const.dart';
-import 'package:coffe_shop/models/coffee.dart';
-import 'package:coffe_shop/models/coffee_shop.dart';
+import 'package:coffe_shop/models/product_coffee.dart';
+import 'package:coffe_shop/provider/data_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -13,16 +13,67 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  
   // remove item from cart
-  void removeFromCart(Coffee coffee) {
-    Provider.of<CoffeeShop>(context, listen: false).removeItemFromCart(coffee);
+  void removeFromCart(ProductsCoffee coffee) {
+    Provider.of<DataProvider>(context, listen: false)
+        .removeItemFromCart(coffee);
+  }
+
+// Method to display the payment confirmation dialog
+  void openAlertDialog(BuildContext context) {
+    final dataProvider = Provider.of<DataProvider>(context, listen: false);
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Payment Confirmation'),
+          content: Text(
+            'Total Price: Rp ${calculateTotalPrice(dataProvider.productCart)}',
+          ),
+          actions: [
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Confirm Payment'),
+              onPressed: () {
+                Provider.of<DataProvider>(context, listen: false).clearCart();
+                Navigator.of(context).pop(); // Close the dialog
+
+                // Tampilkan Snackbar untuk notifikasi "Payment Confirmed" di bagian atas
+                final snackBar = SnackBar(
+                  content: Text('Payment Confirmed'),
+                  margin: EdgeInsets.only(bottom: 100, left: 50, right: 50),
+                  backgroundColor: snackbarColor,
+                  behavior: SnackBarBehavior.floating,
+                  elevation: 20.0,
+                  duration: Duration(milliseconds: 2000),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // Method untuk menghitung total harga dari productCart
+  double calculateTotalPrice(List<ProductsCoffee> productCart) {
+    double totalPrice = 0;
+    for (var product in productCart) {
+      totalPrice += product.price;
+    }
+    return totalPrice;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<CoffeeShop>(
-      builder: (context, value, child) => SafeArea(
+    return Consumer<DataProvider>(
+      builder: (context, dataProvider, child) => SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(25.0),
           child: Column(
@@ -39,15 +90,17 @@ class _CartPageState extends State<CartPage> {
               // list of cart items
               Expanded(
                 child: ListView.builder(
-                  itemCount: value.userCart.length,
+                  itemCount: dataProvider.productCart.length,
                   itemBuilder: (context, index) {
                     // get individual cart items
-                    Coffee eachCoffee = value.userCart[index];
+                    ProductsCoffee eachCoffee = dataProvider.productCart[index];
 
                     // return coffee tile
                     return CoffeeTile(
                       coffee: eachCoffee,
-                      onPressed: () => removeFromCart(eachCoffee),
+                      onPressed: () {
+                        removeFromCart(eachCoffee);
+                      },
                       icon: Icon(
                         Icons.delete,
                         color: kPrimaryColor,
@@ -59,27 +112,11 @@ class _CartPageState extends State<CartPage> {
               const SizedBox(
                 height: 15,
               ),
+
               // pay button
               GestureDetector(
                 onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text('Failed'),
-                        content: const Text(
-                            'This application is still in the development stage'),
-                        actions: [
-                          TextButton(
-                            child: const Text('Close'),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                  );
+                  openAlertDialog(context);
                 },
                 child: Container(
                   padding: const EdgeInsets.all(25),

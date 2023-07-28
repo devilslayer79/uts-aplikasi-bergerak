@@ -1,5 +1,5 @@
 import 'package:coffe_shop/const.dart';
-import 'package:coffe_shop/models/coffee.dart';
+import 'package:coffe_shop/models/product_coffee.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -10,7 +10,7 @@ class CoffeeTile extends StatelessWidget {
       required this.onPressed,
       required this.icon});
   final Widget icon;
-  final Coffee coffee;
+  final ProductsCoffee coffee;
   void Function()? onPressed;
 
   @override
@@ -24,11 +24,11 @@ class CoffeeTile extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 10),
       child: ListTile(
         title: Text(
-          coffee.name,
+          coffee.product,
           style: TextStyle(color: textColor),
         ),
-        subtitle: Text(coffee.price),
-        leading: Image.asset(coffee.imagePath),
+        subtitle: Text('Rp ${coffee.price}'),
+        // leading: Image.network(coffee.imageUrl),
         trailing: IconButton(
           onPressed: onPressed,
           icon: icon,
