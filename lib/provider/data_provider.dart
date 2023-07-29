@@ -14,7 +14,8 @@ class DataProvider with ChangeNotifier {
   List<ProductsCoffee> get productCart => _productCart;
 
   Future<void> fetchproductsCoffeeFromStrapi() async {
-    final apiUrl = 'http://localhost:1337/api/coffees';
+    const baseUrl = 'http://localhost:1337';
+    const apiUrl = '$baseUrl/api/coffees/?populate=%2A';
 
     final response = await http.get(Uri.parse(apiUrl));
 
@@ -22,7 +23,7 @@ class DataProvider with ChangeNotifier {
       final responseData = json.decode(response.body);
       final data = responseData['data'] as List<dynamic>;
       _productsCoffee =
-          data.map((item) => ProductsCoffee.fromJson(item)).toList();
+          data.map((item) => ProductsCoffee.fromJson(item, baseUrl)).toList();
       notifyListeners();
     } else {
       throw Exception('Failed to load products from Strapi');

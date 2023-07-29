@@ -28,7 +28,9 @@ class CoffeeTile extends StatelessWidget {
           style: TextStyle(color: textColor),
         ),
         subtitle: Text('Rp ${coffee.price}'),
-        // leading: Image.network(coffee.imageUrl),
+        leading: coffee.pictureCoffee.url.isNotEmpty
+            ? Image.network(coffee.pictureCoffee.fullUrl)
+            : const SizedBox.shrink(),
         trailing: IconButton(
           onPressed: onPressed,
           icon: icon,

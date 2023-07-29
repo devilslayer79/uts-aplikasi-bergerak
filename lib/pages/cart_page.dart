@@ -17,6 +17,18 @@ class _CartPageState extends State<CartPage> {
   void removeFromCart(ProductsCoffee coffee) {
     Provider.of<DataProvider>(context, listen: false)
         .removeItemFromCart(coffee);
+
+    // let user know it add been successfully DELETE
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: const StadiumBorder(),
+        title: Text(
+          "Successfully deleted from cart",
+          style: TextStyle(color: textColor),
+        ),
+      ),
+    );
   }
 
 // Method to display the payment confirmation dialog
@@ -32,25 +44,31 @@ class _CartPageState extends State<CartPage> {
           ),
           actions: [
             TextButton(
-              child: const Text('Cancel'),
+              child: Text(
+                'Cancel',
+                style: TextStyle(color: textColor),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: const Text('Confirm Payment'),
+              child: Text(
+                'Confirm Payment',
+                style: TextStyle(color: textColor),
+              ),
               onPressed: () {
                 Provider.of<DataProvider>(context, listen: false).clearCart();
                 Navigator.of(context).pop(); // Close the dialog
 
                 // Tampilkan Snackbar untuk notifikasi "Payment Confirmed" di bagian atas
                 final snackBar = SnackBar(
-                  content: Text('Payment Confirmed'),
-                  margin: EdgeInsets.only(bottom: 100, left: 50, right: 50),
+                  content: const Text('Payment Confirmed'),
+                  margin: const EdgeInsets.only(bottom: 100, left: 50, right: 50),
                   backgroundColor: snackbarColor,
                   behavior: SnackBarBehavior.floating,
                   elevation: 20.0,
-                  duration: Duration(milliseconds: 2000),
+                  duration: const Duration(milliseconds: 2000),
                 );
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
               },
