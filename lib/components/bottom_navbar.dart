@@ -28,6 +28,10 @@ class BottomNavBar extends StatelessWidget {
             icon: Icons.shopping_bag_outlined,
             text: 'cart',
           ),
+           GButton(
+            icon: Icons.edit_outlined,
+            text: 'reviews',
+          ),
         ],
       ),
     );

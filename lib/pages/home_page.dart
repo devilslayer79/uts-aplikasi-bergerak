@@ -1,6 +1,7 @@
 import 'package:coffe_shop/Login/login_screen.dart';
 import 'package:coffe_shop/components/bottom_navbar.dart';
 import 'package:coffe_shop/const.dart';
+import 'package:coffe_shop/pages/review_page.dart';
 import 'package:coffe_shop/pages/shop_page.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +15,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   // navigate bottom bar
   int _selectedIndex = 0;
   void navigateBottomBar(int index) {
@@ -25,12 +25,14 @@ class _HomePageState extends State<HomePage> {
 
   // pages
   final List<Widget> _pages = [
-    
     // shop page
     const ShopPage(),
 
     // cart page
     const CartPage(),
+
+    // cart page
+    ReviewPage(),
   ];
 
   @override
