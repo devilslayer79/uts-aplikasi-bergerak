@@ -30,7 +30,7 @@ class BottomNavBar extends StatelessWidget {
           ),
            GButton(
             icon: Icons.edit_outlined,
-            text: 'reviews',
+            text: 'review',
           ),
         ],
       ),

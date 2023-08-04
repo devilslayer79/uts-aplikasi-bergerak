@@ -11,12 +11,12 @@ class Review {
   Review({required this.name, required this.description});
 }
 
-class ReviewPage extends StatefulWidget {
+class ReviewsPage extends StatefulWidget {
   @override
-  State<ReviewPage> createState() => _ReviewPageState();
+  State<ReviewsPage> createState() => _ReviewsPageState();
 }
 
-class _ReviewPageState extends State<ReviewPage> {
+class _ReviewsPageState extends State<ReviewsPage> {
   final List<Review> reviews = []; // List to store reviews
 
   // Text editing controllers for name and review text fields
